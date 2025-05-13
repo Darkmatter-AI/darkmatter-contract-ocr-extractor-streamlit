@@ -1,0 +1,119 @@
+# ---------- 1. Loan-file metadata ----------
+loan_number: string, unique identifier for the loan file
+stack_date: date, date the underwriting document stack was compiled
+doc_version: int, version count of this stack snapshot
+source_document_type: enum, category of the document where the field was found
+source_document_page_start: int, first page containing the field
+source_document_page_end: int, last page containing the field
+source_document_file_name: string, original file name in storage
+extraction_confidence_score: decimal, 0-1 probability that the OCR value is correct
+
+# ---------- 2. Borrower ----------
+borrower_id: string, synthetic ID to link multiple borrowers
+borrower_full_name: string, full legal name as printed on credit report
+borrower_ssn_last4: string, last four digits of SSN
+borrower_date_of_birth: date, DOB from credit report or ID
+borrower_fico: int, representative credit score
+borrower_employment_status: enum["W2","Self","Unemployed","Retired"], employment type
+borrower_employment_title: string, job title or role
+borrower_employment_start_date: date, employment start date on VOE
+borrower_income_type: enum["W2","Self","Rental","Other"], category of income stream
+borrower_monthly_income_amount: decimal, gross monthly income for the stream
+borrower_monthly_debt_payment_amount: decimal, total monthly debt from credit report
+
+# ---------- 3. Property ----------
+property_address: string, street address of the collateral
+property_type: enum["SFR","PUD","Condo","2-4"], dwelling type
+property_occupancy: enum["Primary","Second","Investor"], declared occupancy
+property_appraised_value: decimal, final opinion of value from appraisal
+property_hoa_monthly_fee: decimal, monthly HOA or maintenance fee if applicable
+property_legal_description: string, full legal description from deed
+property_hoa_name: string, HOA or management company name
+
+# ---------- 4. Loan terms (Promissory Note / Allonge) ----------
+note_document_date: date, signing date of the promissory note
+note_loan_amount: decimal, principal sum promised to repay
+note_interest_rate_initial: decimal, initial interest rate on the note
+note_payment_initial: decimal, first scheduled monthly payment amount
+note_first_change_date: date, first rate-adjustment or payment-change date
+note_rate_change_frequency_months: int, months between rate adjustments
+note_margin: decimal, fixed margin for ARM products
+note_index: string, underlying rate index name (SOFR, CMT, etc.)
+note_amortization_term_months: int, total amortization period in months
+note_balloon_date: date, maturity date for balloon feature if present
+note_signature_present: boolean, flag indicating borrower signature detected
+allonge_endorsement_chain: list[string], sequence of endorsements on allonge
+
+# ---------- 5. Security instrument (Deed of Trust / Mortgage) ----------
+deed_recording_date: date, date the security instrument was recorded
+deed_recording_number: string, county recording reference
+deed_trustee_name: string, trustee (or mortgagee) named in instrument
+deed_beneficiary_name: string, lender or beneficiary of security instrument
+deed_rider_type_list: list[string], riders attached (PUD, Condo, ARM, etc.)
+deed_mers_min_number: string, MERS MIN if registered
+deed_notary_seal_present: boolean, presence of notary seal or stamp
+
+# ---------- 6. Credit & underwriting findings ----------
+credit_report_date: date, date of merged credit report
+aus_system: enum["DU","LP","TOTAL","Manual"], automated underwriting engine
+aus_casefile_id: string, unique casefile or key number
+aus_recommendation: enum["Approve/Eligible","Accept","Refer","Caution"], AUS verdict
+dti_calculated: percentage, total debt-to-income ratio verified by underwriter
+housing_ratio: percentage, housing expense-to-income ratio
+ltv_calculated: percentage, loan-to-value ratio using appraisal
+cltv_calculated: percentage, combined loan-to-value ratio
+fraud_score: int, third-party fraud or identity risk score
+conditional_approval_issue_date: date, date conditional approval letter issued
+conditional_approval_conditions_count: int, line-item conditions outstanding
+conditional_approval_conditions_list: list[string], text of remaining PTD conditions
+
+# ---------- 7. Income & assets ----------
+income_w2_monthly: decimal, verified W-2 wage income per month
+income_self_employment_monthly: decimal, averaged self-employment income per month
+income_rental_monthly: decimal, net rental income per month
+income_other_monthly: decimal, other recurring income per month
+asset_checking_balance: decimal, verified checking account balance
+asset_savings_balance: decimal, verified savings account balance
+asset_retirement_balance: decimal, retirement account balance considered for reserves
+asset_gift_funds_amount: decimal, documented gift funds available for closing
+reserves_months_coverage: int, number of months PITI reserves verified
+cash_to_close_from_borrower: decimal, actual cash required from borrower at closing
+
+# ---------- 8. Collateral analysis (Appraisal) ----------
+appraisal_effective_date: date, effective date of value opinion
+appraisal_final_value: decimal, final appraised value
+appraisal_as_is_value: decimal, as-is value if separate
+appraisal_as_repaired_value: decimal, hypothetical as-repaired value if provided
+appraisal_appraiser_license: string, license or certification number of appraiser
+appraisal_property_condition_rating: enum["C1"-"C6"], Uniform condition rating
+appraisal_property_quality_rating: enum["Q1"-"Q6"], Uniform quality rating
+appraisal_comparable_count: int, number of comparable sales used
+appraisal_ltv_from_appraisal: percentage, LTV computed with appraisal value
+
+# ---------- 9. Disclosures & regulatory certificates ----------
+le_issue_date: date, date initial Loan Estimate was issued
+le_estimated_cash_to_close: decimal, cash-to-close estimate on LE
+cd_issue_date: date, date Closing Disclosure was issued
+cd_disclosed_apr: percentage, APR on the final CD
+cd_finance_charge_total: decimal, total finance charge on CD
+cd_total_of_payments: decimal, total of payments over loan term
+cd_total_closing_costs: decimal, total closing costs on CD
+cd_cash_to_close: decimal, final cash to close figure on CD
+atr_cert_signed_date: date, date Ability-to-Repay certification signed
+atr_factor_income_verified: boolean, income verification box checked
+atr_factor_employment_verified: boolean, employment verification box checked
+atr_factor_assets_verified: boolean, assets verification box checked
+atr_factor_dti_verified: boolean, DTI calculation box checked
+atr_factor_credit_history_verified: boolean, credit history considered
+atr_factor_new_monthly_payment_considered: boolean, new payment oblig considered
+atr_factor_simultaneous_mortgage_obligations_considered: boolean, other mortgage obligations considered
+atr_factor_mortgage_related_obligations_considered: boolean, taxes insurance HOA considered
+atr_factor_residual_income_considered: boolean, residual income evaluated
+
+# ---------- 10. Derived calculations ----------
+payment_piti_initial: decimal, initial monthly PITI payment
+residual_income_amount: decimal, monthly residual income
+ltv: percentage, base loan amount divided by appraised value
+cltv: percentage, total liens divided by appraised value
+housing_ratio: percentage, housing payment divided by gross income
+dti: percentage, total debt payments divided by gross income

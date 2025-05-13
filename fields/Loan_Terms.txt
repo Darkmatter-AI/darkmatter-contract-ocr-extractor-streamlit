@@ -1,0 +1,12 @@
+note_document_date: date, signing date of the promissory note
+note_loan_amount: decimal, principal sum promised to repay
+note_interest_rate_initial: decimal, initial interest rate on the note
+note_payment_initial: decimal, first scheduled monthly payment amount
+note_first_change_date: date, first rate-adjustment or payment-change date
+note_rate_change_frequency_months: int, months between rate adjustments
+note_margin: decimal, fixed margin for ARM products
+note_index: string, underlying rate index name (SOFR, CMT, etc.)
+note_amortization_term_months: int, total amortization period in months
+note_balloon_date: date, maturity date for balloon feature if present
+note_signature_present: boolean, flag indicating borrower signature detected
+allonge_endorsement_chain: list[string], sequence of endorsements on allonge

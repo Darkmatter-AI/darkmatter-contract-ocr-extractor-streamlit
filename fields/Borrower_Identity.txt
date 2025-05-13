@@ -1,0 +1,11 @@
+borrower_id: string, synthetic ID to link multiple borrowers
+borrower_full_name: string, full legal name as printed on credit report
+borrower_ssn_last4: string, last four digits of SSN
+borrower_date_of_birth: date, DOB from credit report or ID
+borrower_fico: int, representative credit score
+borrower_employment_status: enum["W2","Self","Unemployed","Retired"], employment type
+borrower_employment_title: string, job title or role
+borrower_employment_start_date: date, employment start date on VOE
+borrower_income_type: enum["W2","Self","Rental","Other"], category of income stream
+borrower_monthly_income_amount: decimal, gross monthly income for the stream
+borrower_monthly_debt_payment_amount: decimal, total monthly debt from credit report
