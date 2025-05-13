@@ -773,3 +773,14 @@ if uploaded_file:
     st.markdown(
         f"**Total Request Tokens:** {total_request}  |  **Total Answer Tokens:** {total_answer}  |  **Total Estimated Cost:** ~${total_cost:.2f}"
     )
+
+# Footer
+st.markdown(
+    """
+    <hr style='margin-top:2em;margin-bottom:0.5em;'>
+    <div style='text-align:center; color: #888; font-size: 0.9em;'>
+        made by <a href='https://darkmatter.is' target='_blank' style='color:#888;text-decoration:none;'>Darkmatter© darkmatter.is</a>
+    </div>
+    """,
+    unsafe_allow_html=True,
+)
