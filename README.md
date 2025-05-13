@@ -16,43 +16,44 @@ This Streamlit app lets you:
 
 1. **Clone the repository**
 
-```bash
-git clone <your-repo-url>
-cd <repo-folder>
-```
+   ```bash
+   git clone <your-repo-url>
+   cd <repo-folder>
+   ```
 
 2. **Create and activate a virtual environment**
 
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
+   ```bash
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
 
 3. **Install dependencies**
 
-```bash
-pip install --upgrade pip
-pip install -r requirements.txt
-```
+   ```bash
+   pip install --upgrade pip
+   pip install -r requirements.txt
+   ```
 
 4. **Configure API keys**
 
 Create a `.env` file in the project root with:
 
-```
-MISTRAL_API_KEY=your-mistral-api-key
-OPENAI_API_KEY=your-openai-api-key
-```
+   ```bash
+   MISTRAL_API_KEY=your-mistral-api-key
+   OPENAI_API_KEY=your-openai-api-key
+   ```
 
 ## Usage
 
 1. **Run the app**
 
-```bash
-streamlit run app.py
-```
+   ```bash
+   streamlit run app.py
+   ```
 
 2. **In the browser:**
+
    - Upload a contract PDF
    - View the extracted text
    - Enter the fields you want to extract (one per line)
