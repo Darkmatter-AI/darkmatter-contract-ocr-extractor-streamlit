@@ -1,18 +1,18 @@
-le_issue_date: date, date initial Loan Estimate was issued
-le_estimated_cash_to_close: decimal, cash-to-close estimate on LE
-cd_issue_date: date, date Closing Disclosure was issued
-cd_disclosed_apr: percentage, APR on the final CD
-cd_finance_charge_total: decimal, total finance charge on CD
-cd_total_of_payments: decimal, total of payments over loan term
-cd_total_closing_costs: decimal, total closing costs on CD
-cd_cash_to_close: decimal, final cash to close figure on CD
-atr_cert_signed_date: date, date Ability-to-Repay certification signed
-atr_factor_income_verified: boolean, income verification box checked
-atr_factor_employment_verified: boolean, employment verification box checked
-atr_factor_assets_verified: boolean, assets verification box checked
-atr_factor_dti_verified: boolean, DTI calculation box checked
-atr_factor_credit_history_verified: boolean, credit history considered
-atr_factor_new_monthly_payment_considered: boolean, new payment oblig considered
-atr_factor_simultaneous_mortgage_obligations_considered: boolean, other mortgage obligations considered
-atr_factor_mortgage_related_obligations_considered: boolean, taxes insurance HOA considered
-atr_factor_residual_income_considered: boolean, residual income evaluated
+le_issue_date: date, The date the initial Loan Estimate (LE) was issued to the borrower, as shown on the LE document.
+le_estimated_cash_to_close: decimal, The estimated amount of cash the borrower needs to bring to closing, as disclosed on the LE.
+cd_issue_date: date, The date the Closing Disclosure (CD) was issued to the borrower, as shown on the CD document.
+cd_disclosed_apr: percentage, The annual percentage rate (APR) disclosed on the final CD, representing the cost of credit as a yearly rate.
+cd_finance_charge_total: decimal, The total finance charge amount disclosed on the CD, including interest and fees over the life of the loan.
+cd_total_of_payments: decimal, The total of all payments the borrower will make over the loan term, as disclosed on the CD.
+cd_total_closing_costs: decimal, The total closing costs disclosed on the CD, including lender and third-party fees.
+cd_cash_to_close: decimal, The final cash to close figure on the CD, representing the actual amount due from the borrower at closing.
+atr_cert_signed_date: date, The date the Ability-to-Repay (ATR) certification was signed by the borrower, as shown on the relevant document.
+atr_factor_income_verified: boolean, Indicates whether the borrower's income was verified as part of the ATR determination.
+atr_factor_employment_verified: boolean, Indicates whether the borrower's employment was verified for ATR compliance.
+atr_factor_assets_verified: boolean, Indicates whether the borrower's assets were verified for ATR compliance.
+atr_factor_dti_verified: boolean, Indicates whether the borrower's debt-to-income (DTI) ratio was verified for ATR compliance.
+atr_factor_credit_history_verified: boolean, Indicates whether the borrower's credit history was considered for ATR compliance.
+atr_factor_new_monthly_payment_considered: boolean, Indicates whether the new monthly payment was considered in the ATR analysis.
+atr_factor_simultaneous_mortgage_obligations_considered: boolean, Indicates whether other simultaneous mortgage obligations were considered for ATR compliance.
+atr_factor_mortgage_related_obligations_considered: boolean, Indicates whether mortgage-related obligations (taxes, insurance, HOA) were considered for ATR compliance.
+atr_factor_residual_income_considered: boolean, Indicates whether the borrower's residual income was evaluated for ATR compliance.

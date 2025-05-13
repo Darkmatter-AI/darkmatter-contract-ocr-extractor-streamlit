@@ -13,13 +13,20 @@ import tiktoken
 from pydantic import BaseModel
 import PyPDF2
 
-# Ensure token_usage is initialized before any function uses it
+# Ensure token_usage and step_times are initialized before any function uses them
 if "token_usage" not in st.session_state:
     st.session_state["token_usage"] = {
         "Mistral OCR": {"request": 0, "answer": 0},
         "OpenAI Embeddings": {"request": 0, "answer": 0},
         "Field Suggestion": {"request": 0, "answer": 0},
         "Field Extraction": {"request": 0, "answer": 0},
+    }
+if "step_times" not in st.session_state:
+    st.session_state["step_times"] = {
+        "Mistral OCR": 0.0,
+        "OpenAI Embeddings": 0.0,
+        "Field Suggestion": 0.0,
+        "Field Extraction": 0.0,
     }
 
 
@@ -61,18 +68,25 @@ def split_into_paragraphs(input_text):
     return [p.strip() for p in paras if p.strip()]
 
 
-def get_embeddings(texts, max_tokens_per_batch=290_000):
+def get_embeddings(texts, max_tokens_per_batch=8000):
     """
     Use OpenAI's text-embedding-3-large model to get embeddings for a list of texts.
     Batches requests to stay under the max token limit. Each input should be a paragraph or similar chunk.
+    Skips any chunk that exceeds the model's context window (8192 tokens).
     """
+    start = time.perf_counter()
+    max_context_tokens = 8192
+    skipped_chunks = []
 
     # Helper to batch texts by token count
     def batch_texts(texts, max_tokens):
         batch = []
         batch_tokens = 0
-        for t in texts:
+        for i, t in enumerate(texts):
             t_tokens = count_tokens(str(t))
+            if t_tokens > max_context_tokens:
+                skipped_chunks.append((i, t))
+                continue  # skip this chunk
             # If adding this paragraph would exceed the batch limit, yield the current batch
             if batch and batch_tokens + t_tokens > max_tokens:
                 yield batch
@@ -94,6 +108,14 @@ def get_embeddings(texts, max_tokens_per_batch=290_000):
             input=batch,
         )
         all_embeddings.extend([item.embedding for item in embedding_response.data])
+    elapsed = time.perf_counter() - start
+    st.session_state["step_times"]["OpenAI Embeddings"] += elapsed
+
+    # Warn if any chunks were skipped
+    if skipped_chunks:
+        st.warning(
+            f"{len(skipped_chunks)} chunk(s) were skipped for embedding because they exceeded the 8192 token limit. Consider splitting large paragraphs."
+        )
     return np.array(all_embeddings)
 
 
@@ -256,7 +278,7 @@ def run_mistral_ocr_with_progress(pdf_file, ocr_progress_bar):
     ocr_progress_bar: the progress bar to update
     Returns a tuple of the OCR text and an error message if there is an error.
     """
-
+    start = time.perf_counter()
     ocr_progress_bar.progress(10, text="Uploading PDF to Mistral...")
     uploaded_pdf = mistral_client.files.upload(
         file={
@@ -277,6 +299,8 @@ def run_mistral_ocr_with_progress(pdf_file, ocr_progress_bar):
     )
     ocr_progress_bar.progress(70, text="Extracting text from OCR response...")
     ocr_text = "\n\n".join([page.markdown for page in ocr_response.pages])
+    elapsed = time.perf_counter() - start
+    st.session_state["step_times"]["Mistral OCR"] += elapsed
     return ocr_text, None
 
 
@@ -286,8 +310,8 @@ def run_field_extraction():
     """
     extract_btn = st.button("Extract Fields with OpenAI (RAG)")
     extract_progress_placeholder = st.empty()
-
     if extract_btn and st.session_state["fields_input"].strip():
+        extraction_start = time.perf_counter()
         extract_progress_bar = extract_progress_placeholder.progress(
             0, text="Extracting fields with OpenAI (RAG)..."
         )
@@ -316,7 +340,6 @@ def run_field_extraction():
                     )
                 else:
                     continue  # skip lines that don't match the expected field format
-
             extract_progress_bar.progress(
                 25, text="Loading cached document chunks and embeddings..."
             )
@@ -332,7 +355,6 @@ def run_field_extraction():
                 )
                 extract_progress_placeholder.empty()
                 return
-
             # Gradual field extraction: process each field one at a time
             field_extraction_rows = []
             table_placeholder = st.empty()
@@ -357,9 +379,17 @@ def run_field_extraction():
                     {
                         "role": "system",
                         "content": (
-                            "You are an extraction engine. For each field, output a single line in the format: field_name,value,context. "
-                            "If the value is a list or dictionary, output it as valid JSON. "
+                            "You are an extraction engine. For the given field, output a single line in the format: field_name,value,context. "
+                            "If the value is a list or dictionary, output it a comma separated list. "
                             "Do not include any commentary or extra text. Only output one line per field."
+                            "Example: contract_date,2025-01-01,The date the contract was signed.\n"
+                            "Example: party_name,John Doe,The name of the party.\n"
+                            "Example: amount,100000,The amount of the contract.\n"
+                            "Example: contract_type,lease,The type of contract.\n"
+                            "Example: expiration_date,2025-01-01,The date the contract expires.\n"
+                            "Example: contract_type,lease,lease,lease\n"
+                            "Example: contract_type,purchase,purchase,purchase\n"
+                            "Example: contract_type,service,service,service\n"
                         ),
                     },
                     {
@@ -385,19 +415,8 @@ def run_field_extraction():
                     field_parts = field_extraction_output.split(",", 2)
                     if len(field_parts) == 3:
                         value = field_parts[1]
-                        # Try to parse as JSON (for lists/dicts)
-                        try:
-                            parsed_value = json.loads(value)
-                            if isinstance(parsed_value, list):
-                                value_display = ", ".join(
-                                    [str(v) for v in parsed_value]
-                                )
-                            elif isinstance(parsed_value, dict):
-                                value_display = json.dumps(parsed_value, indent=2)
-                            else:
-                                value_display = str(parsed_value)
-                        except json.JSONDecodeError:
-                            value_display = value
+                        # Do not parse or modify the value, just display as-is (except for truncation)
+                        value_display = value
                         max_value_length = 200
                         if len(value_display) > max_value_length:
                             value_display = value_display[:max_value_length] + "..."
@@ -418,6 +437,9 @@ def run_field_extraction():
                     continue
             extract_progress_bar.progress(100, text="Done!")
             extract_progress_placeholder.empty()
+        st.session_state["step_times"]["Field Extraction"] += (
+            time.perf_counter() - extraction_start
+        )
 
 
 load_dotenv()
@@ -547,6 +569,7 @@ if uploaded_file:
         if "fields_input" not in st.session_state:
             st.session_state["fields_input"] = ""
         if suggest_btn:
+            suggest_start = time.perf_counter()
             suggest_progress.progress(0, text="Analyzing document to suggest fields...")
             # Use OpenAI to suggest fields
             extract_openai_key = os.environ.get("OPENAI_API_KEY")
@@ -561,6 +584,11 @@ if uploaded_file:
                         "content": (
                             "You are a contract field suggestion engine. For each field, output a single line in the format: field_name,type,description,example. "
                             "Do not include any commentary or extra text. Only output one line per field."
+                            "Example: contract_date,date,The date the contract was signed,2025-01-01\n"
+                            "Example: party_name,string,Name of the main party,John Doe\n"
+                            "Example: amount,float,Total contract value,100000\n"
+                            "Example: contract_type,string,Type of contract (e.g., lease, purchase, service),lease\n"
+                            "Example: expiration_date,date,The date the contract expires,2025-01-01\n"
                         ),
                     },
                     {
@@ -612,6 +640,9 @@ if uploaded_file:
                         100, text="Error occurred during suggestion."
                     )
                     suggest_progress.empty()
+            st.session_state["step_times"]["Field Suggestion"] += (
+                time.perf_counter() - suggest_start
+            )
 
     # Always show the text area for editing fields_input
     fields_input = st.text_area(
@@ -642,6 +673,7 @@ if uploaded_file:
             "Step": step,
             "Request Tokens": usage["request"],
             "Answer Tokens": usage["answer"],
+            "Time (s)": round(st.session_state["step_times"].get(step, 0.0), 2),
         }
         for step, usage in st.session_state["token_usage"].items()
     ]

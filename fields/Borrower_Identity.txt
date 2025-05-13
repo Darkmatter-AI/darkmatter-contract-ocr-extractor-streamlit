@@ -1,11 +1,11 @@
-borrower_id: string, synthetic ID to link multiple borrowers
-borrower_full_name: string, full legal name as printed on credit report
-borrower_ssn_last4: string, last four digits of SSN
-borrower_date_of_birth: date, DOB from credit report or ID
-borrower_fico: int, representative credit score
-borrower_employment_status: enum["W2","Self","Unemployed","Retired"], employment type
-borrower_employment_title: string, job title or role
-borrower_employment_start_date: date, employment start date on VOE
-borrower_income_type: enum["W2","Self","Rental","Other"], category of income stream
-borrower_monthly_income_amount: decimal, gross monthly income for the stream
-borrower_monthly_debt_payment_amount: decimal, total monthly debt from credit report
+borrower_id: string, A synthetic identifier used to link multiple borrowers within the loan file, typically assigned during data processing.
+borrower_full_name: string, The full legal name of the borrower as printed on the credit report or identification documents.
+borrower_ssn_last4: string, The last four digits of the borrower's Social Security Number, as shown on the credit report or ID.
+borrower_date_of_birth: date, The borrower's date of birth, as found on the credit report or identification documents.
+borrower_fico: int, The representative credit score (FICO) for the borrower, as reported on the credit report.
+borrower_employment_status: enum["W2","Self","Unemployed","Retired"], The employment type of the borrower (e.g., W2 employee, self-employed, unemployed, retired), as indicated on the loan application or verification documents.
+borrower_employment_title: string, The job title or role of the borrower, as stated on employment verification or loan application.
+borrower_employment_start_date: date, The start date of the borrower's employment, as shown on the verification of employment (VOE) or loan application.
+borrower_income_type: enum["W2","Self","Rental","Other"], The category of income stream for the borrower (e.g., W2, self-employment, rental, other), as indicated in the loan file.
+borrower_monthly_income_amount: decimal, The gross monthly income for the borrower's income stream, as reported in the loan application or verification documents.
+borrower_monthly_debt_payment_amount: decimal, The total monthly debt payment amount for the borrower, as shown on the credit report.

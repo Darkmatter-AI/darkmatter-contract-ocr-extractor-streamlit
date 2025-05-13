@@ -1,7 +1,7 @@
-property_address: string, street address of the collateral
-property_type: enum["SFR","PUD","Condo","2-4"], dwelling type
-property_occupancy: enum["Primary","Second","Investor"], declared occupancy
-property_appraised_value: decimal, final opinion of value from appraisal
-property_hoa_monthly_fee: decimal, monthly HOA or maintenance fee if applicable
-property_legal_description: string, full legal description from deed
-property_hoa_name: string, HOA or management company name
+property_address: string, The street address of the collateral property, as stated in the contract or appraisal documents.
+property_type: enum["SFR","PUD","Condo","2-4"], The dwelling type of the property (e.g., Single Family Residence, Planned Unit Development, Condominium, 2-4 unit), as specified in the contract or appraisal.
+property_occupancy: enum["Primary","Second","Investor"], The declared occupancy status of the property (primary residence, second home, or investment property), as indicated in the contract or loan application.
+property_appraised_value: decimal, The final opinion of value for the property as determined by the appraisal report.
+property_hoa_monthly_fee: decimal, The monthly Homeowners Association (HOA) or maintenance fee for the property, if applicable, as shown in the contract or appraisal.
+property_legal_description: string, The full legal description of the property, as found in the deed or title documents.
+property_hoa_name: string, The name of the HOA or management company associated with the property, as stated in the contract or appraisal.
