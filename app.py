@@ -15,7 +15,6 @@ import PyPDF2
 st.set_page_config(
     page_title="SitusAMC AI Extractor",
     page_icon="situsamc_logo.jpeg",
-    layout="wide",
     initial_sidebar_state="collapsed",
 )
 
