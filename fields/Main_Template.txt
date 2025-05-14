@@ -1,0 +1,87 @@
+loan_amount: float, The principal loan amount provided to the borrower, 780000
+interest_rate: float, Initial annual interest rate for the loan, 6.625
+loan_term_months: integer, Total loan term in months, 360
+loan_purpose: string, The purpose of the loan, Refinance
+loan_type: string, The type of loan, Conventional
+product_type: string, Specific product description, 7/1 Adjustable Rate
+lien_position: string, Priority of the lien, First Mortgage
+amortization_type: string, Type of amortization, Adjustable Rate
+property_address: string, Address of the collateral property, 1069 Lake Drive
+property_city: string, City where the property is located, Danville
+property_state: string, State where the property is located, CA
+property_zip: string, Postal code of the property, 94526
+property_county: string, County where the property is located, Contra Costa
+property_type: string, Type of property, Single Family
+number_of_units: integer, Number of units in the property, 1
+borrower_1_full_name: string, Primary borrower's full name, Augustine M Lopez
+borrower_2_full_name: string, Co-borrower's full name, Mathilda E Lopez
+borrower_address: string, Borrower's current address, 1089 Lake Drive
+borrower_city: string, City of borrower's current address, Danville
+borrower_state: string, State of borrower's current address, CA
+borrower_zip: string, Postal code of borrower's address, 94526
+lender_name: string, Name of lender issuing the loan, LendSure Mortgage Corp.
+lender_nmls_id: string, NMLS ID of lender, 1326437
+loan_originator_name: string, Name of loan originator, David I Tominaga
+loan_originator_nmls_id: string, NMLS ID of loan originator, 224944
+loan_number: string, The lender-assigned loan number, CASDW175551609
+escrow_account: boolean, Indicates if the loan has an escrow account, TRUE
+monthly_escrow_payment: float, Initial monthly escrow payment, 1563.19
+prepayment_penalty: boolean, Indicates if prepayment penalty applies, FALSE
+balloon_payment: boolean, Indicates if balloon payment is due at maturity, FALSE
+note_date: date, Date of the promissory note, 2017-05-25
+first_payment_date: date, Date of first regular payment, 2017-07-01
+maturity_date: date, Date when loan matures, 2047-06-01
+monthly_principal_interest: float, Initial monthly principal and interest payment, 4994.43
+appraised_value: float, Appraised value of the collateral property, 1050000
+closing_date: date, Date loan is scheduled to close, 2017-05-25
+disbursement_date: date, Date loan funds are scheduled to be disbursed, 2017-05-31
+settlement_agent: string, Settlement agent handling closing, First American Title
+late_charge_percent: float, Late charge percentage for overdue payment, 5.000
+late_charge_grace_period_days: integer, Days after due date when late charge applies, 15
+index_type: string, Name of index used for rate adjustments, LIBOR 1-Year
+index_margin: float, Margin added to index for rate calculation, 4.000
+rate_change_frequency_months: integer, Months between interest rate changes, 12
+first_rate_change_month: integer, Month of the first interest rate change, 85
+max_interest_rate: float, Maximum adjustable rate over life of loan, 11.625
+min_interest_rate: float, Minimum adjustable rate over life of loan, 6.625
+rate_cap_first_change: float, Maximum rate increase at first adjustment, 2.000
+rate_cap_subsequent_changes: float, Maximum rate change for subsequent adjustments, 2.000
+monthly_payment_min: float, Minimum projected monthly payment after adjustment, 4994
+monthly_payment_max: float, Maximum projected monthly payment after adjustment, 7310
+property_tax_monthly: float, Estimated monthly property tax, 272.67
+insurance_monthly: float, Estimated monthly property insurance, 50.50
+hoa_dues_monthly: float, Estimated monthly HOA dues, 91.67
+cash_to_close: float, Total cash required to close the loan, 34814.06
+closing_costs_total: float, Total closing costs, 31728.71
+loan_to_value_ratio: float, Loan-to-value (LTV) ratio expressed as %, 74.3
+combined_loan_to_value_ratio: float, Combined loan-to-value (CLTV) ratio as %, 74.3
+debt_to_income_ratio: float, Debt-to-income ratio as a percentage, 49.0
+housing_expense_ratio: float, Housing expense ratio as a percentage, 29.52
+funds_required_to_close: float, Borrower funds required to close, 0
+funds_verified: float, Borrower funds verified for closing, 7249
+net_cash_back: float, Net cash back to borrower, 612805.61
+hazard_insurance_amt_annual: float, Annual hazard/homeowner's insurance, 606
+purpose_type: string, Description of refinance type, Cash-Out
+adjustable_rate_index_name: string, Name of index on which the interest rate is based, LIBOR 12-Month
+property_apn: string, Property Assessor's Parcel Number, 489-238-079-5
+trustee_name: string, Name of trustee on deed of trust, First American Title Company
+mortgage_insurance_required: boolean, Indicates if mortgage insurance is required, FALSE
+periodic_payment: float, Full periodic payment required under the Note, 4994.43
+due_on_sale_clause: boolean, Whether loan accelerates on sale/transfer, TRUE
+assumption_allowed: boolean, Whether the loan is assumable, FALSE
+demand_feature: boolean, Whether the loan has a demand feature, FALSE
+negative_amortization: boolean, Whether the loan features negative amortization, FALSE
+partial_payments_accepted: boolean, If partial payments are accepted, TRUE
+property_improvements: string, Improvements included, Frame, Hardboard, Comp. Shingle Roof
+gross_living_area_sqft: integer, Gross living area of subject property (sq ft), 1741
+stories: integer, Number of stories (building levels), 1
+year_built: integer, Year subject property was built, 1977
+full_bath_count: integer, Number of full bathrooms, 2
+bedroom_count: integer, Number of bedrooms, 4
+quality_rating: string, Quality rating of property (UAD definition), Q4
+condition_rating: string, Condition rating of property (UAD definition), C3
+legal_description: string, Legal description of property, "Lot 46, Subdivision 5586 Smallville Station Unit 8, Contra Costa County Records"
+appraiser_name: string, Name of appraiser, Jacqueline Carlisle
+appraisal_date: date, Date of appraisal, 2017-05-12
+exposure_time_days: integer, Appraiser's opinion of reasonable exposure time in days, 30
+insurance_carrier: string, Name of insurance carrier, General Star National Insurance Company
