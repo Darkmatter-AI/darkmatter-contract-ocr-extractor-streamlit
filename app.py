@@ -12,6 +12,13 @@ import tiktoken
 from pydantic import BaseModel
 import PyPDF2
 
+st.set_page_config(
+    page_title="SitusAMC AI Extractor",
+    page_icon="situsamc_logo.jpeg",
+    layout="wide",
+    initial_sidebar_state="collapsed",
+)
+
 # Ensure token_usage and step_times are initialized before any function uses them
 if "token_usage" not in st.session_state:
     st.session_state["token_usage"] = {
