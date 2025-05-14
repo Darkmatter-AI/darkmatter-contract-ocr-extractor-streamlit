@@ -452,7 +452,12 @@ load_dotenv()
 st.image("situsamc_logo.jpeg", width=50)
 st.title("SitusAMC AI Extractor")
 st.markdown(
-    "This tool extracts fields from a contract PDF. It uses Mistral OCR to extract the text, then uses OpenAI to extract the fields."
+    """
+This tool extracts fields from a contract PDF. It uses Mistral OCR to extract the text, then uses OpenAI to extract the fields.
+
+<a href=\"https://www.loom.com/share/476ca1d4f1a040a2abc5b0d45cc3e57a?sid=a0bb22ad-f544-4aa1-88f7-88d5d43eaf1f\" target=\"_blank\" >▶️ 5min video tutorial</a>
+""",
+    unsafe_allow_html=True,
 )
 
 # User uploads a PDF file
