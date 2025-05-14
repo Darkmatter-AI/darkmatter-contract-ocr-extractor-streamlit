@@ -1,8 +1,0 @@
-artifacts:
-  - streamlit_app.py
-  - app.py
-  - requirements.txt
-  - situsamc_logo.jpeg
-  - fields/
-streamlit:
-  entrypoint: streamlit_app.py 
