@@ -34,9 +34,11 @@ def get_openai_client():
     Get OpenAI client.
     Returns an OpenAI client.
     """
-    api_key = os.environ.get("OPENAI_API_KEY")
+    api_key = st.secrets.get("openai_api_key") or os.environ.get("OPENAI_API_KEY")
     if not api_key:
-        raise ValueError("OPENAI_API_KEY environment variable not set.")
+        raise ValueError(
+            "OPENAI_API_KEY environment variable or Snowflake secret not set."
+        )
     return OpenAI(api_key=api_key)
 
 
@@ -45,9 +47,11 @@ def get_mistral_client():
     Get Mistral client.
     Returns a Mistral client.
     """
-    api_key = os.environ.get("MISTRAL_API_KEY")
+    api_key = st.secrets.get("mistral_api_key") or os.environ.get("MISTRAL_API_KEY")
     if not api_key:
-        raise ValueError("MISTRAL_API_KEY environment variable not set.")
+        raise ValueError(
+            "MISTRAL_API_KEY environment variable or Snowflake secret not set."
+        )
     return Mistral(api_key=api_key)
 
 
@@ -316,7 +320,7 @@ def run_field_extraction():
         )
         time.sleep(0.1)
         if not openai_client:
-            st.error("OPENAI_API_KEY environment variable not set.")
+            st.error("OPENAI_API_KEY environment variable or Snowflake secret not set.")
             extract_progress_bar.progress(100, text="Error: OPENAI_API_KEY not set.")
             extract_progress_placeholder.empty()
         else:
@@ -571,9 +575,13 @@ if uploaded_file:
             suggest_start = time.perf_counter()
             suggest_progress.progress(0, text="Analyzing document to suggest fields...")
             # Use OpenAI to suggest fields
-            extract_openai_key = os.environ.get("OPENAI_API_KEY")
+            extract_openai_key = st.secrets.get("openai_api_key") or os.environ.get(
+                "OPENAI_API_KEY"
+            )
             if not extract_openai_key:
-                st.error("OPENAI_API_KEY environment variable not set.")
+                st.error(
+                    "OPENAI_API_KEY environment variable or Snowflake secret not set."
+                )
                 suggest_progress.progress(100, text="Error: OPENAI_API_KEY not set.")
                 suggest_progress.empty()
             else:

@@ -1,0 +1,5 @@
+definition_version: "1.1"
+streamlit:
+  name: "situsamc_demo_app"
+  database: "STREAMLIT_APP_DB"
+  schema: "PUBLIC" 

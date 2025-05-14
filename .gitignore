@@ -19,3 +19,6 @@ __pycache__/
 *.pyzq
 *.pyzr
 *.pyzs
+
+# Snowflake CLI config (macOS)
+/Users/joaomontenegro/Library/Application Support/snowflake/config.toml
