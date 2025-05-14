@@ -451,7 +451,7 @@ def run_field_extraction():
 load_dotenv()
 
 st.image("situsamc_logo.jpeg", width=50)
-st.title("Situs Contract Extractor")
+st.title("SitusAMC AI Extractor")
 st.markdown(
     "This tool extracts fields from a contract PDF. It uses Mistral OCR to extract the text, then uses OpenAI to extract the fields."
 )
